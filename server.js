@@ -58,16 +58,28 @@ app.post("/api/projects", (req, res) => {
 
 app.get("/api/tasks", (req, res) => {
   db("task")
-    .leftJoin("project as p")
+    .join("project as p")
     .select(
       "task.id",
-      " task.description",
       "task.completed",
-      "p.project_name",
-      "p.description"
+      "task.description",
+
+      "p.project_name"
     )
+    .orderBy("p.id")
     .then((task) => {
       res.status(201).json(task);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+app.post("/api/tasks", (req, res) => {
+  db("task")
+    .insert(req.body)
+    .then((newtask) => {
+      res.status(201).json(newtask);
     })
     .catch((error) => {
       console.log(error);

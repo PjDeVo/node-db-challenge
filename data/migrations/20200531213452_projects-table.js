@@ -8,7 +8,7 @@ exports.up = function (knex) {
     })
     .createTable("task", (tbl) => {
       tbl.increments("id");
-      tbl.integer("project_id").references("project.id");
+      tbl.integer("project_id").references("id").inTable("project");
       tbl.string("description").notNullable();
       tbl.string("notes");
       tbl.boolean("completed").notNullable();
